@@ -35,18 +35,23 @@
   <div class="overzicht__pagination">
     <!-- Previous link -->
     <a href="/overzicht?page=<%= currentPage - 1 %>"
-      class="pagination__link <%= currentPage === 1 ? 'disabled' : '' %>">
-     Vorige
-   </a>
-   
-   <!-- Current page -->
-   <span class="pagination__current">Pagina <%= currentPage %></span>
-   
-   <!-- Next link -->
-   <a href="/overzicht?page=<%= currentPage + 1 %>"
-      class="pagination__link <%= currentPage === totalPages ? 'disabled' : '' %>">
-     Volgende
-   </a>
+       class="pagination__link <%= currentPage === 1 ? 'disabled' : '' %>">
+      Vorige
+    </a>
+    
+    <!-- Page numbers -->
+    <% for (let i = 1; i <= totalPages; i++) { %>
+      <a href="/overzicht?page=<%= i %>"
+         class="pagination__link pagination__number <%= currentPage === i ? 'pagination__current' : '' %>">
+        <%= i %>
+      </a>
+    <% } %>
+    
+    <!-- Next link -->
+    <a href="/overzicht?page=<%= currentPage + 1 %>"
+       class="pagination__link <%= currentPage === totalPages ? 'disabled' : '' %>">
+      Volgende
+    </a>
   </div>
 
 </main>

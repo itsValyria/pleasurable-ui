@@ -150,6 +150,17 @@
   pointer-events: none;
 }
 
+.pagination__current {
+  color: var(--primary--green-accent);
+  transform: scale(1.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.pagination__number:hover {
+  transform: scale(1.2);
+  transition: transform 0.3s ease-in-out;
+}
+
 /* -------------- Fade Animation -------------- */
 
 .fade-in {

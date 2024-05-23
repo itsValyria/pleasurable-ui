@@ -2,9 +2,11 @@
 <%- include('./partials/head') %>
 
 <main>
+
   <div class="overzicht__button--container">
     <a href="/service-aanmelden" class="overzicht__button">Zelf iets plaatsen...</a>
   </div>
+
   <ul class="overzicht__container">
     <% // Sorteren van advertenties op oud naar nieuw (Hoogste ID tot laagste ID)
     services.sort((a, b) => b.id - a.id); services.forEach(function(service) {
@@ -29,6 +31,24 @@
     </li>
     <% }); %>
   </ul>
+
+  <div class="overzicht__pagination">
+    <!-- Previous link -->
+    <a href="/overzicht?page=<%= currentPage - 1 %>"
+      class="pagination__link <%= currentPage === 1 ? 'disabled' : '' %>">
+     Vorige
+   </a>
+   
+   <!-- Current page -->
+   <span class="pagination__current">Pagina <%= currentPage %></span>
+   
+   <!-- Next link -->
+   <a href="/overzicht?page=<%= currentPage + 1 %>"
+      class="pagination__link <%= currentPage === totalPages ? 'disabled' : '' %>">
+     Volgende
+   </a>
+  </div>
+
 </main>
 
 <!-- Hier word de foot geinclude -->

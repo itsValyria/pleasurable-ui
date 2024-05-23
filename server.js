@@ -63,9 +63,20 @@ fetchData().then((allAdvertisementsData) => {
     response.render("faq", { services: allAdvertisementsData, });
   });
 
-  // GET-route voor de overzichtspagina
+  // GET-route voor de overzichtspagina met pagination
   app.get("/overzicht", function (request, response) {
-    response.render("overzicht", { services: allAdvertisementsData });
+    const page = parseInt(request.query.page) || 1; // Default to page 1 if no query parameter is provided
+    const itemsPerPage = 6;
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const totalPages = Math.ceil(allAdvertisementsData.length / itemsPerPage);
+    const servicesOnPage = allAdvertisementsData.slice(startIndex, endIndex);
+
+    response.render("overzicht", { 
+      services: servicesOnPage,
+      currentPage: page,
+      totalPages: totalPages
+    });
   });
 
   // GET-route voor de overzicht detail page van een service met slug

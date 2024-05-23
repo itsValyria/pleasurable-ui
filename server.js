@@ -63,19 +63,47 @@ fetchData().then((allAdvertisementsData) => {
     response.render("faq", { services: allAdvertisementsData, });
   });
 
-  // GET-route voor de overzichtspagina met pagination
+  // POST-route voor zoeken services
+  app.post("/search", function (request, response) {
+    const searchQuery = request.body.searchQuery.toLowerCase();
+    const filteredServices = allAdvertisementsData.filter(service =>
+      service.title.toLowerCase().includes(searchQuery)
+    );
+
+    // Render the search results using the overzicht template
+    const totalPages = 1; // Since it's not paginated
+    response.render("overzicht", {
+      services: filteredServices,
+      currentPage: 1, // Assuming it's the first page
+      totalPages: totalPages,
+      searchQuery: searchQuery // Pass the search query to template for pre-filling the search bar
+    });
+  });
+
+  // GET-route voor de overzichtspagina met pagination en search
   app.get("/overzicht", function (request, response) {
-    const page = parseInt(request.query.page) || 1; // Default to page 1 if no query parameter is provided
+    const page = parseInt(request.query.page) || 1; 
     const itemsPerPage = 6;
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const totalPages = Math.ceil(allAdvertisementsData.length / itemsPerPage);
-    const servicesOnPage = allAdvertisementsData.slice(startIndex, endIndex);
 
-    response.render("overzicht", { 
+    // Filter initiatieven op basis van de query, if provided!
+    let servicesOnPage = allAdvertisementsData;
+    const searchQuery = request.query.q;
+    if (searchQuery) {
+      servicesOnPage = allAdvertisementsData.filter(service =>
+        service.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    } else {
+      servicesOnPage = allAdvertisementsData.slice(startIndex, endIndex);
+    }
+
+    response.render("overzicht", {
       services: servicesOnPage,
       currentPage: page,
-      totalPages: totalPages
+      totalPages: totalPages,
+      searchQuery: searchQuery
     });
   });
 

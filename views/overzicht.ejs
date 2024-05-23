@@ -7,6 +7,11 @@
     <a href="/service-aanmelden" class="overzicht__button">Zelf iets plaatsen...</a>
   </div>
 
+  <form action="/search" method="POST" class="search-form">
+    <input type="text" name="searchQuery" placeholder="Search..." value="<%= searchQuery || '' %>">
+    <button type="submit">Search</button>
+  </form>
+
   <ul class="overzicht__container">
     <% // Sorteren van advertenties op oud naar nieuw (Hoogste ID tot laagste ID)
     services.sort((a, b) => b.id - a.id); services.forEach(function(service) {
